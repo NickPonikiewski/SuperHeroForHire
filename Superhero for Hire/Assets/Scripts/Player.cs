@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
 	public int playerSpeed = 10;
-	public bool facingRight = true;
+	private bool facingRight = false;
 	public float moveX;
 
 	// Use this for initialization
@@ -23,10 +23,16 @@ public class Player : MonoBehaviour {
 		//player Dir
 		if (moveX < 0.0f && facingRight == false) {
 			FlipPlayer ();
-		} else if (moveX > 0.0f)
+		} else if (moveX > 0.0f && facingRight == true) {
+			FlipPlayer ();
+		}
 		//phy
+		gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2 (moveX * playerSpeed,gameObject.GetComponent<Rigidbody2D>().velocity.y);
 	}
 	void FlipPlayer(){
-		
+		facingRight = !facingRight;
+		Vector2 localScale = gameObject.transform.localScale;
+		localScale.x *= -1;
+		transform.localScale = localScale;
 	}
 }
